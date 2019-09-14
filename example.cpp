@@ -24,12 +24,16 @@ int main(int argc, char** argv){
     cout<<"Although sometimes there might be several nodes above 4"<<endl;
 
     for(int i=0; i<MAX_NODES; i++){
-        if(skiplist.remove(&nodes[i])){
+        if(skiplist.del(&nodes[i])){
             nodes[i] = NULL;
         }
     }
 
-    cout<<"Now you can try to insert as you wish:"<<endl;
+    cout<<"Now you can try to insert as you wish:"<<endl<<endl;
+    cout<<"insert: i [idx] [key] [val]"<<endl;
+    cout<<"delete: d [idx]"<<endl;
+    cout<<"search for nodes with a given key: s [key]"<<endl;
+    cout<<"search for nodes within a given range: r [key1] [key2]"<<endl<<endl;
 
     int idx,val,key,key1,key2;
     idx = val = key = 0;
@@ -41,26 +45,34 @@ int main(int argc, char** argv){
             if(!skiplist.insert(key,val,&nodes[idx])){
                 cout<<"insert fail"<<endl;
             }
-        }else if('r' == c){
+        }else if('d' == c){
             cin>>idx;
-            if(!skiplist.remove(&nodes[idx])){
+            if(!skiplist.del(&nodes[idx])){
                 cout<<"remove fail"<<endl;
             }
         }else if('s' == c){
             cin>>key;
             struct skiplist_node_t<int,int> *start, *end, *node;
             if(skiplist.search(key,&start, &end)){
+                //if search success
                 list_each_sl_node(start,end,node){
+                    //do something
                     cout<<"val: "<<node->value<<endl;
                 }
+            }else{
+                cout<<"not find nodes with key"<<key<<endl;
             }
-        }else if('d' == c){
+        }else if('r' == c){
             cin>>key1>>key2;
             struct skiplist_node_t<int,int> *start, *end, *node;
             if(skiplist.search(key1,key2, &start, &end)){
+                //if search success
                 list_each_sl_node(start,end,node){
+                    //do something
                     cout<<"val: "<<node->value<<endl;
                 }
+            }else{
+                cout<<"not find nodes within the range: "<<key1<<" - "<<key2<<endl;
             }
         }
         
